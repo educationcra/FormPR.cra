@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>แบบสำรวจความพึงพอใจ งานประชาสัมพันธ์ ประจำปี 2569</title>
+    <title>แบบสำรวจความพึงพอใจของการสนับสนุนงานประชาสัมพันธ์ ประจำปีงบประประมาณ 2569</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -102,7 +102,7 @@
                     </div>
                     <div class="flex flex-col items-center gap-2 relative z-20">
                         <div id="dot3" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex justify-center items-center font-black text-lg transition-all"><i class="fi fi-sr-star mt-1"></i></div>
-                        <span class="text-[10px] md:text-xs font-bold text-slate-400 text-center" id="text-dot3">ประเมิน<br>ความพึงพอใจ</span>
+                        <span class="text-[10px] md:text-xs font-bold text-slate-400 text-center" id="text-dot3">สำรวจ<br>ความพึงพอใจ</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 relative z-20">
                         <div id="dot4" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex justify-center items-center font-black text-lg transition-all"><i class="fi fi-sr-check-circle mt-1"></i></div>
@@ -165,7 +165,7 @@
                     <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4 border-b border-slate-200 pb-4">
                         <div class="border-l-4 border-blue-500 pl-4">
                             <h2 class="text-xl font-black text-slate-800">ส่วนที่ 3 : แบบสำรวจความพึงพอใจ</h2>
-                            <p class="text-slate-500 font-bold mt-1 text-sm">หัวข้อประเมินจะแสดงตามงานบริการที่ท่านได้เลือกไว้</p>
+                            <p class="text-slate-500 font-bold mt-1 text-sm">หัวข้อสำรวจจะแสดงตามงานบริการที่ท่านได้เลือกไว้</p>
                         </div>
                         <span class="text-[11px] md:text-xs font-bold text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm whitespace-nowrap inline-block w-fit">
                             5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด
@@ -190,6 +190,23 @@
                         <p class="text-slate-500 font-bold text-sm">ข้อคิดเห็นของท่านจะเป็นประโยชน์อย่างยิ่งในการพัฒนางานต่อไป</p>
                     </div>
                     
+                    <!-- ส่วนเพิ่มแบบประเมินดาวลงในหน้าสุดท้าย (คอลัมน์ Q) -->
+                    <div class="bg-white border-2 border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm mb-6 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
+                        <label class="font-bold text-slate-700 flex-1 leading-snug text-base">ให้คะแนนการดำเนินงานด้านการสื่อสารประชาสัมพันธ์ในภาพรวมของงานประชาสัมพันธ์ ฝ่ายสื่อสารองค์กร ราชวิทยาลัยจุฬาภรณ์ <span class="text-rose-500">*</span></label>
+                        <div class="radio-stars shrink-0">
+                            <input type="radio" id="scoreQ_5" name="scoreQ" value="5">
+                            <label for="scoreQ_5" title="5 คะแนน"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></label>
+                            <input type="radio" id="scoreQ_4" name="scoreQ" value="4">
+                            <label for="scoreQ_4" title="4 คะแนน"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></label>
+                            <input type="radio" id="scoreQ_3" name="scoreQ" value="3">
+                            <label for="scoreQ_3" title="3 คะแนน"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></label>
+                            <input type="radio" id="scoreQ_2" name="scoreQ" value="2">
+                            <label for="scoreQ_2" title="2 คะแนน"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></label>
+                            <input type="radio" id="scoreQ_1" name="scoreQ" value="1">
+                            <label for="scoreQ_1" title="1 คะแนน"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></label>
+                        </div>
+                    </div>
+
                     <div class="bg-white border-2 border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm mb-8">
                         <label class="block font-black text-lg mb-3 text-slate-800 flex items-center gap-2">ข้อเสนอแนะเพิ่มเติม <span class="text-rose-500">*</span></label>
                         <textarea id="suggestion" rows="5" class="glass-input resize-none bg-slate-50" placeholder="พิมพ์ข้อความที่นี่..."></textarea>
@@ -216,7 +233,7 @@
                     </p>
                 </div>
                 <button onclick="window.location.reload()" class="mt-8 bg-slate-800 hover:bg-slate-900 text-white px-10 py-4 rounded-2xl font-black text-lg transition shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 mx-auto w-full">
-                    ทำแบบสอบถามอีกครั้ง <i class="fi fi-sr-rotate-right mt-1"></i>
+                    ทำแบบสำรวจอีกครั้ง <i class="fi fi-sr-rotate-right mt-1"></i>
                 </button>
             </div>
 
@@ -242,7 +259,7 @@
             "คณะแพทยศาสตร์ศรีสวางควัฒน", "คณะพยาบาลศาสตร์อัครราชกุมารี", "คณะเทคโนโลยีวิทยาศาสตร์สุขภาพ", 
             "คณะวิทยาศาสตร์", "คณะวิศวกรรมศาสตร์", "คณะนวัตกรรมอาหารและโภชนาการ", "อื่นๆ"
         ];
-        const positions = ["ผู้บริหาร", "อาจารย์ประจำหลักสูตร", "บุคลากรทางการแพทย์", "บุคลากรสายวิชาการ", "บุคลากรสายสนับสนุนทั่วไป", "นักศึกษา", "อื่นๆ"];
+        const positions = ["ผู้บริหาร", "อาจารย์ประจำหลักสูตร", "บุคลากรทางการแพทย์", "บุคลากรสายวิชาการ", "บุคลากรสายสนับสนุนทั่วไป", "อื่นๆ"];
         
         const servicesData = [
             { id: 's1', title: 'การประสานงาน ควบคุม ติดตาม การออกแบบผลิตสื่อ และอำนวยความสะดวกในภารกิจด้านการศึกษา', 
@@ -457,6 +474,10 @@
 
         // Submit Logic
         function submitSurvey() {
+            if (!document.querySelector('input[name="scoreQ"]:checked')) {
+                return showError('กรุณาให้คะแนนความพึงพอใจในภาพรวม');
+            }
+
             const suggestionInput = document.getElementById('suggestion').value.trim();
             if (!suggestionInput) {
                 return showError('กรุณากรอกข้อเสนอแนะเพิ่มเติม');
@@ -489,7 +510,8 @@
                 scoreK: getScore('scoreK'),
                 scoreL: getScore('scoreL'),
                 scoreM: getScore('scoreM'),
-                scoreN: getScore('scoreN')
+                scoreN: getScore('scoreN'),
+                scoreQ: getScore('scoreQ')
             };
 
             btn.innerHTML = '<i class="fi fi-sr-spinner animate-spin text-xl"></i> กำลังส่งข้อมูล...';
