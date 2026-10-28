@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>แบบประเมินความพึงพอใจ งานประชาสัมพันธ์ ประจำปี 2569</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    
+    <style>
+        body { font-family: 'Noto Sans Thai', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+        
+        .glass-input { width: 100%; padding: 1rem 1.25rem; border-radius: 1rem; border: 2px solid #e2e8f0; outline: none; transition: 0.3s; font-weight: 600; color: #1e293b; background: white; }
+        .glass-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        
+        .modern-popup { border-radius: 24px !important; font-family: 'Noto Sans Thai', sans-serif !important; }
+        
+        .step-section { display: none; animation: fadeIn 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        .step-section.active { display: block; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Custom Checkbox */
+        .cb-wrapper { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 14px 16px; border: 2px solid #e2e8f0; border-radius: 16px; background: white; transition: 0.2s; margin-bottom: 8px;}
+        .cb-wrapper:hover { border-color: #cbd5e1; background: #f8fafc; transform: translateY(-2px); }
+        .cb-wrapper input { display: none; }
+        .cb-box { width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink:0; transition: 0.2s; background: white; margin-top: 2px;}
+        .cb-wrapper input:checked + .cb-box { background: #3b82f6; border-color: #3b82f6; }
+        .cb-wrapper input:checked + .cb-box::after { content: '✓'; color: white; font-weight: 900; font-size: 14px; }
+        .cb-wrapper input:checked ~ span { color: #1d4ed8; font-weight: 700; }
+        .cb-wrapper:has(input:checked) { background: #eff6ff; border-color: #bfdbfe; box-shadow: 0 4px 15px -3px rgba(59, 130, 246, 0.1); }
+
+        /* Custom Dropdown */
+        .c-select-wrapper { position: relative; width: 100%; user-select: none; z-index: 50;}
+        .c-select-trigger { background: #ffffff; border: 2px solid #e2e8f0; padding: 1rem 1.25rem; border-radius: 1rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s; font-weight: 700; color: #334155; }
+        .c-select-trigger:hover { border-color: #3b82f6; }
+        .c-select-wrapper.open .c-select-trigger { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .c-options { position: absolute; top: calc(100% + 8px); left: 0; right: 0; border: 2px solid #e2e8f0; border-radius: 1.25rem; background: #fff; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; visibility: hidden; pointer-events: none; max-height: 300px; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); transform: translateY(-10px) scale(0.98); }
+        .c-select-wrapper.open .c-options { opacity: 1; visibility: visible; pointer-events: all; transform: translateY(0) scale(1); }
+        .c-option { padding: 14px 20px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: 0.15s; border-bottom: 1px solid #f1f5f9; font-weight: 700; color: #64748b; line-height: 1.3; }
+        .c-option:last-child { border-bottom: none; }
+        .c-option:hover { background-color: #eff6ff; color: #1d4ed8; padding-left: 24px; }
+        .c-options::-webkit-scrollbar { width: 6px; }
+        .c-options::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* Animated Stars */
+        .radio-stars { display: flex; justify-content: flex-end; gap: 6px; flex-direction: row-reverse; position: relative; width: fit-content; margin-top: 10px;}
+        @media(min-width: 768px) { .radio-stars { margin-top: 0; } }
+        .radio-stars > input { position: absolute; appearance: none; opacity: 0; }
+        .radio-stars > label { cursor: pointer; width: 38px; height: 38px; position: relative; display: inline-block; transition: transform 0.3s ease; }
+        .radio-stars > label > svg { fill: #e2e8f0; transition: fill 0.3s ease, filter 0.3s ease; width: 100%; height: 100%; }
+        .radio-stars > label::before, .radio-stars > label::after { content: ""; position: absolute; width: 6px; height: 6px; background-color: #eab308; border-radius: 50%; opacity: 0; transform: scale(0); transition: transform 0.4s ease, opacity 0.4s ease; pointer-events: none; }
+        .radio-stars > label::before { top: -8px; left: 50%; transform: translateX(-50%) scale(0); }
+        .radio-stars > label::after { bottom: -8px; left: 50%; transform: translateX(-50%) scale(0); }
+        .radio-stars > label:hover::before, .radio-stars > label:hover::after { opacity: 1; transform: translateX(-50%) scale(1.5); animation: particle-explosion 1s ease-out; }
+        .radio-stars > label:hover { transform: scale(1.15); animation: pulse-star 0.6s infinite alternate; }
+        .radio-stars > label:hover > svg, .radio-stars > label:hover ~ label > svg { fill: #facc15; filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.6)); animation: shimmer 1s ease infinite alternate; }
+        .radio-stars > input:checked + label > svg, .radio-stars > input:checked ~ label > svg { fill: #eab308; filter: drop-shadow(0 0 12px rgba(234, 179, 8, 0.8)); }
+        .radio-stars > input:checked + label { animation: pulse-star 0.8s infinite alternate; }
+
+        @keyframes pulse-star { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        @keyframes particle-explosion { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(0.5); } }
+        @keyframes shimmer { 0% { filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.4)); } 100% { filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.9)); } }
+
+        .btn-action { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; transition: all 0.3s ease; }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4); }
+    </style>
+</head>
+<body class="pb-10 relative">
+
+    <!-- Top Gradient Bar -->
+    <div class="w-full h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 fixed top-0 z-50"></div>
+    
+    <div class="max-w-4xl mx-auto px-4 pt-8 md:pt-12">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm border border-blue-200">
+                <i class="fi fi-sr-document-signed mt-1"></i>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black text-slate-800 mb-2">แบบประเมินความพึงพอใจ</h1>
+            <p class="text-slate-500 font-bold">การสนับสนุนงานประชาสัมพันธ์ ประจำปีงบประมาณ 2569</p>
+        </div>
+
+        <div class="bg-white rounded-[2rem] shadow-xl p-6 md:p-10 border border-slate-100 relative">
+            
+            <!-- Stepper UI -->
+            <div id="stepperContainer" class="mb-10 relative max-w-2xl mx-auto px-2">
+                <div class="flex items-center justify-between relative z-10">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1.5 bg-slate-100 -z-10 rounded-full"></div>
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-blue-500 transition-all duration-500 rounded-full" id="progressBar" style="width: 0%;"></div>
+                    
+                    <div class="flex flex-col items-center gap-2 relative z-20">
+                        <div id="dot1" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 text-white flex justify-center items-center font-black text-lg shadow-lg ring-4 ring-blue-50 transition-all"><i class="fi fi-sr-user mt-1"></i></div>
+                        <span class="text-[10px] md:text-xs font-bold text-blue-500 text-center">ข้อมูล<br>ทั่วไป</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 relative z-20">
+                        <div id="dot2" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex justify-center items-center font-black text-lg transition-all"><i class="fi fi-sr-apps mt-1"></i></div>
+                        <span class="text-[10px] md:text-xs font-bold text-slate-400 text-center" id="text-dot2">งานที่<br>รับบริการ</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 relative z-20">
+                        <div id="dot3" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex justify-center items-center font-black text-lg transition-all"><i class="fi fi-sr-star mt-1"></i></div>
+                        <span class="text-[10px] md:text-xs font-bold text-slate-400 text-center" id="text-dot3">ประเมิน<br>ความพึงพอใจ</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 relative z-20">
+                        <div id="dot4" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex justify-center items-center font-black text-lg transition-all"><i class="fi fi-sr-check-circle mt-1"></i></div>
+                        <span class="text-[10px] md:text-xs font-bold text-slate-400 text-center" id="text-dot4">ส่ง<br>ข้อมูล</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="surveyForm">
+                
+                <!-- STEP 1: ข้อมูลทั่วไป -->
+                <div id="step1" class="step-section active pb-4">
+                    <div class="mb-8 border-l-4 border-blue-500 pl-4">
+                        <h2 class="text-xl font-black text-slate-800">ส่วนที่ 1 : ข้อมูลทั่วไป</h2>
+                        <p class="text-slate-500 font-bold mt-1 text-sm">กรุณาระบุหน่วยงานและตำแหน่งของท่าน</p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="relative z-40">
+                            <label class="block font-bold mb-2 text-slate-700">คณะ / หน่วยงาน <span class="text-rose-500">*</span></label>
+                            <input type="hidden" id="faculty" value="">
+                            <div id="dd-faculty"></div>
+                            <input type="text" id="faculty_other" class="glass-input mt-3 hidden border-blue-300 bg-blue-50 focus:border-blue-500" placeholder="โปรดระบุคณะ / หน่วยงานของคุณ...">
+                        </div>
+
+                        <div class="relative z-30">
+                            <label class="block font-bold mb-2 text-slate-700">ตำแหน่ง <span class="text-rose-500">*</span></label>
+                            <input type="hidden" id="position" value="">
+                            <div id="dd-position"></div>
+                            <input type="text" id="position_other" class="glass-input mt-3 hidden border-blue-300 bg-blue-50 focus:border-blue-500" placeholder="โปรดระบุตำแหน่งของคุณ...">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-6 border-t border-slate-100 mt-8">
+                        <button type="button" onclick="nextStep(1)" class="btn-action px-10 py-3.5 rounded-xl font-black text-lg flex items-center gap-2">หน้าถัดไป <i class="fi fi-sr-arrow-right mt-1"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: งานที่รับบริการ -->
+                <div id="step2" class="step-section pb-4">
+                    <div class="mb-8 border-l-4 border-blue-500 pl-4">
+                        <h2 class="text-xl font-black text-slate-800">ส่วนที่ 2 : ประเภทของงานที่รับบริการ</h2>
+                        <p class="text-slate-500 font-bold mt-1 text-sm">กรุณาเลือกประเภทของงานที่รับบริการ <span class="text-orange-500">(เลือกได้มากกว่า 1 ข้อ)</span></p>
+                    </div>
+                    
+                    <div class="bg-slate-50 border-2 border-slate-100 p-4 md:p-6 rounded-3xl shadow-inner mb-6">
+                        <div class="space-y-2" id="servicesWrap">
+                            <!-- JS จะสร้าง Checkbox อัตโนมัติที่นี่ -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-6 border-t border-slate-100 mt-8 relative z-0">
+                        <button type="button" onclick="prevStep(2)" class="px-6 py-3 text-slate-400 font-extrabold text-lg hover:text-slate-800 transition-colors">ย้อนกลับ</button>
+                        <button type="button" onclick="nextStep(2)" class="btn-action px-10 py-3.5 rounded-xl font-black text-lg flex items-center gap-2">หน้าถัดไป <i class="fi fi-sr-arrow-right mt-1"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: ประเมินความพึงพอใจ -->
+                <div id="step3" class="step-section pb-4">
+                    <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4 border-b border-slate-200 pb-4">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h2 class="text-xl font-black text-slate-800">ส่วนที่ 3 : แบบประเมินความพึงพอใจ</h2>
+                            <p class="text-slate-500 font-bold mt-1 text-sm">หัวข้อประเมินจะแสดงตามงานบริการที่ท่านได้เลือกไว้</p>
+                        </div>
+                        <span class="text-[11px] md:text-xs font-bold text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm whitespace-nowrap inline-block w-fit">
+                            5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด
+                        </span>
+                    </div>
+                    
+                    <div id="dynamicRatingsWrap" class="space-y-8">
+                        <!-- JS จะสร้างชุดประเมินที่นี่ ตาม Checkbox ที่เลือก -->
+                    </div>
+
+                    <div class="flex justify-between items-center pt-6 border-t border-slate-100 mt-8 relative z-0">
+                        <button type="button" onclick="prevStep(3)" class="px-6 py-3 text-slate-400 font-extrabold text-lg hover:text-slate-800 transition-colors">ย้อนกลับ</button>
+                        <button type="button" onclick="nextStep(3)" class="btn-action px-10 py-3.5 rounded-xl font-black text-lg flex items-center gap-2">หน้าถัดไป <i class="fi fi-sr-arrow-right mt-1"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: ข้อเสนอแนะ & ส่งข้อมูล -->
+                <div id="step4" class="step-section pb-4">
+                    <div class="mb-8 text-center">
+                        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-blue-100"><i class="fi fi-sr-comment-alt-dots mt-2"></i></div>
+                        <h2 class="text-2xl font-black text-slate-800 mb-1">ส่วนที่ 4 : ข้อเสนอแนะเพิ่มเติม</h2>
+                        <p class="text-slate-500 font-bold text-sm">ข้อคิดเห็นของท่านจะเป็นประโยชน์อย่างยิ่งในการพัฒนางานต่อไป</p>
+                    </div>
+                    
+                    <div class="bg-white border-2 border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm mb-8">
+                        <label class="block font-black text-lg mb-3 text-slate-800 flex items-center gap-2">ข้อเสนอแนะเพิ่มเติม <span class="text-rose-500">*</span></label>
+                        <textarea id="suggestion" rows="5" class="glass-input resize-none bg-slate-50" placeholder="พิมพ์ข้อความที่นี่..."></textarea>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-6 border-t border-slate-100 mt-8">
+                        <button type="button" onclick="prevStep(4)" class="px-6 py-3 text-slate-400 font-extrabold text-lg hover:text-slate-800 transition-colors">ย้อนกลับ</button>
+                        <button type="button" onclick="submitSurvey()" id="btnSubmit" class="w-full md:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-4 rounded-xl font-black text-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-500/50 transition-all transform hover:-translate-y-1">
+                            ส่งแบบประเมิน <i class="fi fi-sr-paper-plane mt-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Success View (แสดงเมื่อบันทึกสำเร็จ) -->
+            <div id="successView" class="hidden flex flex-col items-center py-10 text-center animate-[fadeIn_0.5s_ease-out] w-full max-w-sm mx-auto">
+                <div class="w-24 h-24 bg-gradient-to-br from-green-50 to-green-100 rounded-full flex justify-center items-center mb-6 border-4 border-white shadow-xl mx-auto">
+                    <i class="fi fi-sr-check-circle text-5xl text-green-500 mt-2"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-800 mb-3 tracking-tight">ส่งข้อมูลสำเร็จ!</h2>
+                <div class="bg-white rounded-3xl p-6 text-center border border-slate-200 shadow-sm mt-2 relative">
+                    <p class="text-slate-600 font-bold text-base leading-relaxed">
+                        ขอขอบคุณที่สละเวลาให้ข้อมูล<br>ข้อมูลของท่านจะเป็นประโยชน์อย่างยิ่งในการพัฒนางานประชาสัมพันธ์
+                    </p>
+                </div>
+                <button onclick="window.location.reload()" class="mt-8 bg-slate-800 hover:bg-slate-900 text-white px-10 py-4 rounded-2xl font-black text-lg transition shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 mx-auto w-full">
+                    ทำแบบสอบถามอีกครั้ง <i class="fi fi-sr-rotate-right mt-1"></i>
+                </button>
+            </div>
+
+        </div>
+        
+        <div class="text-center mt-6 text-slate-400 text-xs font-bold mb-10">
+            &copy; 2026 Satisfaction Survey System
+        </div>
+    </div>
+
+    <script>
+        // ==============================================================================
+        // ตั้งค่า Google Apps Script Web App URL ของคุณที่นี่
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxF3zbgezmKzJc9-KjwsqeKk2uYvU2haPmq06Uy2H77Wdmfue07DTbxvUFy7Qaw1Mr2/exec';
+        // ==============================================================================
+
+        let currentStep = 1;
+        const svgStar = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+
+        // Data Source
+        const faculties = [
+            "สำนักงานราชวิทยาลัยจุฬาภรณ์", "โรงพยาบาลจุฬาภรณ์", "วิทยาลัยวิทยาศาสตร์การแพทย์เจ้าฟ้าจุฬาภรณ์", 
+            "คณะแพทยศาสตร์ศรีสวางควัฒน", "คณะพยาบาลศาสตร์อัครราชกุมารี", "คณะเทคโนโลยีวิทยาศาสตร์สุขภาพ", 
+            "คณะวิทยาศาสตร์", "คณะวิศวกรรมศาสตร์", "คณะนวัตกรรมอาหารและโภชนาการ", "อื่นๆ"
+        ];
+        const positions = ["ผู้บริหาร", "อาจารย์ประจำหลักสูตร", "บุคลากรทางการแพทย์", "บุคลากรสายวิชาการ", "บุคลากรสายสนับสนุนทั่วไป", "นักศึกษา", "อื่นๆ"];
+        
+        const servicesData = [
+            { id: 's1', title: 'การประสานงาน ควบคุม ติดตาม การออกแบบผลิตสื่อ และอำนวยความสะดวกในภารกิจด้านการศึกษา', 
+              q1_id: 'scoreE', q1_text: 'มีความถูกต้องตามวัตถุประสงค์และประสานงานได้อย่างรวดเร็วตรงต่อเวลา', 
+              q2_id: 'scoreF', q2_text: 'ความพึงพอใจในการประสานงาน ควบคุม ติดตาม การออกแบบผลิตสื่อ และอำนวยความสะดวกในภารกิจด้านการศึกษา' },
+            
+            { id: 's2', title: 'งานประสานนักวิชาการและแพทย์เฉพาะทาง เข้าร่วมรายการโทรทัศน์หรือกิจกรรมให้ความรู้', 
+              q1_id: 'scoreG', q1_text: 'การประสานงานเป็นไปอย่างมีประสิทธิภาพและตรงต่อเวลา ช่วยกลั่นกรองข้อมูลเนื้อหานักวิชาการและแพทย์เฉพาะทางก่อนให้การสัมภาษณ์', 
+              q2_id: 'scoreH', q2_text: 'ความพึงพอใจในการประสานนักวิชาการและแพทย์เฉพาะทาง เข้าร่วมรายการโทรทัศน์หรือกิจกรรมให้ความรู้' },
+            
+            { id: 's3', title: 'งานด้านการส่งข่าวประชาสัมพันธ์ ผ่านสื่อมวลชน', 
+              q1_id: 'scoreI', q1_text: 'มีความถูกต้องของเนื้อหาและความสมบูรณ์ของภาพเพื่อประกอบการประชาสัมพันธ์', 
+              q2_id: 'scoreJ', q2_text: 'ความพึงพอใจในงานด้านการส่งข่าวประชาสัมพันธ์ ผ่านสื่อมวลชน' },
+            
+            { id: 's4', title: 'งานถ่ายภาพประชาสัมพันธ์', 
+              q1_id: 'scoreK', q1_text: 'คุณภาพของภาพถ่าย สามารถนำไปใช้งานได้จริง', 
+              q2_id: 'scoreL', q2_text: 'ความพึงพอใจในงานถ่ายภาพประชาสัมพันธ์' },
+            
+            { id: 's5', title: 'งานออกแบบสื่อประชาสัมพันธ์รับสมัครนักศึกษาใหม่และอินโฟกราฟิกด้านการศึกษา', 
+              q1_id: 'scoreM', q1_text: 'สื่อมีความถูกต้อง ครบถ้วน สวยงาม และสอดคล้องกับอัตลักษณ์องค์กร สามารถใช้งานได้จริง', 
+              q2_id: 'scoreN', q2_text: 'ความพึงพอใจในงานออกแบบสื่อประชาสัมพันธ์รับสมัครนักศึกษาใหม่และอินโฟกราฟิกด้านการศึกษา' }
+        ];
+
+        window.onload = () => {
+            // Render Dropdowns
+            renderCustomDropdown('faculty', faculties, '-- เลือกคณะ / หน่วยงาน --', 'fi-sr-building', (val) => {
+                document.getElementById('faculty_other').classList.toggle('hidden', val !== 'อื่นๆ');
+            });
+            renderCustomDropdown('position', positions, '-- เลือกตำแหน่ง --', 'fi-sr-briefcase', (val) => {
+                document.getElementById('position_other').classList.toggle('hidden', val !== 'อื่นๆ');
+            });
+
+            // Render Service Checkboxes
+            document.getElementById('servicesWrap').innerHTML = servicesData.map(s => 
+                `<label class="cb-wrapper"><input type="checkbox" name="chkService" value="${s.id}"><div class="cb-box"></div><span class="text-slate-700 font-bold ml-1 text-sm md:text-base leading-snug">${s.title}</span></label>`
+            ).join('');
+        };
+
+        // Custom Dropdown Logic
+        function renderCustomDropdown(inputId, optionsData, placeholder, defaultIcon, onChangeCallback) {
+            const container = document.getElementById(`dd-${inputId}`);
+            if(!container) return;
+            const hiddenInput = document.getElementById(inputId);
+            let html = `<div class="c-select-wrapper" id="wrap-${inputId}"><div class="c-select-trigger shadow-sm"><span class="flex items-center gap-3 truncate text-sm md:text-base font-bold text-slate-500" id="text-${inputId}"><div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 shrink-0"><i class="fi ${defaultIcon} mt-1 text-base"></i></div>${placeholder}</span><i class="fi fi-sr-angle-small-down text-slate-400 shrink-0 ml-2"></i></div><div class="c-options"><div class="c-option text-slate-400" data-value=""><span>${placeholder}</span></div>`;
+            optionsData.forEach(opt => {
+                html += `<div class="c-option text-sm md:text-base" data-value="${opt}"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 shrink-0"><i class="fi ${defaultIcon} mt-1 text-base"></i></div><span class="whitespace-normal">${opt}</span></div>`;
+            });
+            html += `</div></div>`;
+            container.innerHTML = html;
+            const wrapper = container.querySelector('.c-select-wrapper');
+            
+            container.querySelector('.c-select-trigger').addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                document.querySelectorAll('.c-select-wrapper').forEach(w => { if(w !== wrapper) w.classList.remove('open'); }); 
+                wrapper.classList.toggle('open'); 
+            });
+            
+            wrapper.querySelectorAll('.c-option').forEach(opt => {
+                opt.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    let val = opt.getAttribute('data-value'); 
+                    hiddenInput.value = val;
+                    const textSpan = container.querySelector(`#text-${inputId}`);
+                    if(val) {
+                        textSpan.innerHTML = `<div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shrink-0"><i class="fi ${defaultIcon} mt-1 text-base"></i></div> <span class="whitespace-normal text-slate-800 font-bold">${val}</span>`;
+                    } else {
+                        textSpan.innerHTML = `<div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 shrink-0"><i class="fi ${defaultIcon} mt-1 text-base"></i></div> ${placeholder}`;
+                    }
+                    wrapper.classList.remove('open'); 
+                    if (onChangeCallback) onChangeCallback(val);
+                });
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.c-select-wrapper').forEach(w => w.classList.remove('open'));
+        });
+
+        // Stepper Navigation
+        function nextStep(step) {
+            if (!validateStep(step)) return;
+            
+            // Logic before going to Step 3 (Build Rating UI based on selected services)
+            if(step === 2) {
+                buildDynamicRatings();
+            }
+
+            document.getElementById(`step${step}`).classList.remove('active');
+            currentStep = step + 1;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateStepperUI(); 
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            currentStep = step - 1;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateStepperUI(); 
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateStepperUI() {
+            const progress = ((currentStep - 1) / 3) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                const text = document.getElementById(`text-dot${i}`);
+                if (i < currentStep) {
+                    dot.className = "w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-500 text-white flex justify-center items-center font-black text-lg shadow-md transition-all"; 
+                    dot.innerHTML = '<i class="fi fi-sr-check mt-1"></i>';
+                    if(text) text.className = "text-[10px] md:text-xs font-bold text-green-500 text-center";
+                } else if (i === currentStep) {
+                    dot.className = "w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 text-white flex justify-center items-center font-black text-lg shadow-lg ring-4 ring-blue-100 transition-all scale-110"; 
+                    dot.innerHTML = getIconForStep(i);
+                    if(text) text.className = "text-[10px] md:text-xs font-bold text-blue-500 text-center";
+                } else {
+                    dot.className = "w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex justify-center items-center font-black text-lg transition-all"; 
+                    dot.innerHTML = getIconForStep(i);
+                    if(text) text.className = "text-[10px] md:text-xs font-bold text-slate-400 text-center";
+                }
+            }
+        }
+        
+        function getIconForStep(step) {
+            if(step===1) return '<i class="fi fi-sr-user mt-1"></i>'; 
+            if(step===2) return '<i class="fi fi-sr-apps mt-1"></i>';
+            if(step===3) return '<i class="fi fi-sr-star mt-1"></i>'; 
+            if(step===4) return '<i class="fi fi-sr-check-circle mt-1"></i>';
+        }
+
+        // Validation Logic
+        function validateStep(step) {
+            if (step === 1) {
+                const fac = document.getElementById('faculty').value;
+                if(!fac) return showError('กรุณาเลือก คณะ / หน่วยงาน');
+                if(fac === 'อื่นๆ' && !document.getElementById('faculty_other').value.trim()) return showError('กรุณาระบุ คณะ / หน่วยงาน ที่ช่อง "อื่นๆ"');
+                
+                const pos = document.getElementById('position').value;
+                if(!pos) return showError('กรุณาเลือก ตำแหน่ง');
+                if(pos === 'อื่นๆ' && !document.getElementById('position_other').value.trim()) return showError('กรุณาระบุ ตำแหน่ง ที่ช่อง "อื่นๆ"');
+            }
+            if (step === 2) {
+                const checkedServices = document.querySelectorAll('input[name="chkService"]:checked');
+                if(checkedServices.length === 0) return showError('กรุณาเลือกประเภทของงานที่รับบริการอย่างน้อย 1 ข้อ');
+            }
+            if (step === 3) {
+                // Check if all displayed rating groups are checked
+                const checkedServices = Array.from(document.querySelectorAll('input[name="chkService"]:checked')).map(el => el.value);
+                for(let sId of checkedServices) {
+                    const service = servicesData.find(s => s.id === sId);
+                    if(!document.querySelector(`input[name="${service.q1_id}"]:checked`)) return showError('กรุณาให้คะแนนให้ครบถ้วนในทุกหัวข้อที่ปรากฏ');
+                    if(!document.querySelector(`input[name="${service.q2_id}"]:checked`)) return showError('กรุณาให้คะแนนให้ครบถ้วนในทุกหัวข้อที่ปรากฏ');
+                }
+            }
+            return true;
+        }
+
+        function showError(msg) { 
+            Swal.fire({ 
+                icon: 'warning', 
+                title: 'ข้อมูลไม่ครบถ้วน', 
+                text: msg, 
+                confirmButtonText: 'ตกลง', 
+                confirmButtonColor: '#3b82f6', 
+                customClass: { popup: 'modern-popup' }
+            }); 
+            return false; 
+        }
+
+        // Build Dynamic Ratings for Step 3
+        function buildDynamicRatings() {
+            const wrap = document.getElementById('dynamicRatingsWrap');
+            wrap.innerHTML = ''; // Clear old
+
+            const checkedServices = Array.from(document.querySelectorAll('input[name="chkService"]:checked')).map(el => el.value);
+            
+            checkedServices.forEach((sId, index) => {
+                const service = servicesData.find(s => s.id === sId);
+                const isLast = index === checkedServices.length - 1;
+                
+                const html = `
+                    <div class="bg-white border-2 border-slate-100 rounded-3xl p-6 shadow-sm">
+                        <h3 class="font-black text-blue-700 mb-4 text-base md:text-lg border-b border-blue-100 pb-3 flex items-start gap-2">
+                            <i class="fi fi-sr-apps text-blue-400 mt-1"></i> ${service.title}
+                        </h3>
+                        <div class="space-y-6">
+                            ${generateRatingRow(service.q1_id, `1. ${service.q1_text}`)}
+                            <hr class="border-slate-100 border-dashed">
+                            ${generateRatingRow(service.q2_id, `2. ${service.q2_text}`)}
+                        </div>
+                    </div>
+                `;
+                wrap.innerHTML += html;
+            });
+        }
+
+        function generateRatingRow(nameId, title) {
+            return `
+                <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-3 lg:gap-6 rounded-2xl hover:bg-slate-50 transition p-2 -mx-2">
+                    <label class="font-bold text-slate-700 flex-1 leading-snug text-sm md:text-base">${title} <span class="text-rose-500">*</span></label>
+                    <div class="radio-stars shrink-0">
+                        ${[5, 4, 3, 2, 1].map(num => `
+                            <input type="radio" id="${nameId}_${num}" name="${nameId}" value="${num}">
+                            <label for="${nameId}_${num}" title="${num} คะแนน">${svgStar}</label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Submit Logic
+        function submitSurvey() {
+            const suggestionInput = document.getElementById('suggestion').value.trim();
+            if (!suggestionInput) {
+                return showError('กรุณากรอกข้อเสนอแนะเพิ่มเติม');
+            }
+
+            const btn = document.getElementById('btnSubmit');
+            
+            // Prepare Payload
+            let fac = document.getElementById('faculty').value;
+            if(fac === 'อื่นๆ') fac = `อื่นๆ: ${document.getElementById('faculty_other').value}`;
+            
+            let pos = document.getElementById('position').value;
+            if(pos === 'อื่นๆ') pos = `อื่นๆ: ${document.getElementById('position_other').value}`;
+
+            // Get selected services text
+            const checkedServiceIds = Array.from(document.querySelectorAll('input[name="chkService"]:checked')).map(el => el.value);
+            const selectedServicesText = checkedServiceIds.map(sId => servicesData.find(s => s.id === sId).title).join(', ');
+
+            const payload = {
+                faculty: fac,
+                position: pos,
+                services: selectedServicesText,
+                suggestion: document.getElementById('suggestion').value,
+                scoreE: getScore('scoreE'),
+                scoreF: getScore('scoreF'),
+                scoreG: getScore('scoreG'),
+                scoreH: getScore('scoreH'),
+                scoreI: getScore('scoreI'),
+                scoreJ: getScore('scoreJ'),
+                scoreK: getScore('scoreK'),
+                scoreL: getScore('scoreL'),
+                scoreM: getScore('scoreM'),
+                scoreN: getScore('scoreN')
+            };
+
+            btn.innerHTML = '<i class="fi fi-sr-spinner animate-spin text-xl"></i> กำลังส่งข้อมูล...';
+            btn.disabled = true;
+
+            fetch(GAS_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload) 
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerHTML = 'ส่งแบบประเมิน <i class="fi fi-sr-paper-plane mt-1"></i>'; 
+                btn.disabled = false;
+                
+                if (data.status === 'success') {
+                    document.getElementById('surveyForm').classList.add('hidden');
+                    document.getElementById('stepperContainer').classList.add('hidden');
+                    document.getElementById('successView').classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    Swal.fire('ข้อผิดพลาด', data.message || 'ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่', 'error');
+                }
+            }).catch(err => {
+                btn.innerHTML = 'ส่งแบบประเมิน <i class="fi fi-sr-paper-plane mt-1"></i>'; 
+                btn.disabled = false;
+                Swal.fire('ข้อผิดพลาด', 'การเชื่อมต่อขัดข้อง โปรดตรวจสอบอินเทอร์เน็ต', 'error');
+            });
+        }
+
+        // Helper to safely get radio value
+        function getScore(name) {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : '';
+        }
+
+    </script>
+</body>
+</html>
